@@ -2,6 +2,7 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import type { Job } from 'bullmq';
 import fetch from 'node-fetch';
+import { loadEnv } from '../config/env';
 
 type OutboxPayload = {
   to: string;
@@ -11,10 +12,11 @@ type OutboxPayload = {
 @Processor('outbox')
 export class OutboxProcessor extends WorkerHost {
   private readonly logger = new Logger(OutboxProcessor.name);
+  private readonly env = loadEnv();
 
   async process(job: Job<OutboxPayload>) {
-    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
-    const token = process.env.WHATSAPP_TOKEN;
+    const phoneNumberId = this.env.WHATSAPP_PHONE_NUMBER_ID;
+    const token = this.env.WHATSAPP_TOKEN;
 
     if (!phoneNumberId || !token) {
       throw new Error('WhatsApp credentials are not configured');

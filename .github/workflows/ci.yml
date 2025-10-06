@@ -8,6 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      WHATSAPP_VERIFY_TOKEN: test-verify
+      WHATSAPP_TOKEN: test-token
+      WHATSAPP_PHONE_NUMBER_ID: '0000000000'
+      XAI_API_KEY: test-xai-key
+      APP_SECRET: test-app-secret
+      REDIS_URL: redis://localhost:6379
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -16,6 +24,8 @@ jobs:
           cache: npm
           cache-dependency-path: inmo-assistant-api/package-lock.json
       - run: npm ci
+        working-directory: inmo-assistant-api
+      - run: npm test
         working-directory: inmo-assistant-api
       - run: npm run lint
         working-directory: inmo-assistant-api

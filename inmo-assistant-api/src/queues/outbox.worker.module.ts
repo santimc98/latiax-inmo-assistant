@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
+import { OutboxProcessor } from './outbox.processor';
 import { loadEnv } from '../config/env';
 
 const env = loadEnv();
@@ -22,6 +23,6 @@ const env = loadEnv();
       },
     }),
   ],
-  exports: [BullModule],
+  providers: [OutboxProcessor],
 })
-export class QueuesModule {}
+export class OutboxWorkerModule {}

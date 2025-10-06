@@ -18,6 +18,7 @@ cp .env.example .env
 Key variables:
 - `WHATSAPP_VERIFY_TOKEN` must match the token configured in the Meta App.
 - `WHATSAPP_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` are used to send outbound messages.
+- `APP_SECRET` is the Meta App secret used to validate `X-Hub-Signature-256`.
 - `REDIS_URL` points BullMQ to your Redis instance.
 - `XAI_API_KEY` authenticates with xAI.
 
@@ -44,24 +45,36 @@ If the token matches `WHATSAPP_VERIFY_TOKEN`, the API echoes the `hub.challenge`
 Anywhere inside the NestJS context you can inject `InjectQueue('outbox')`. For scripts, import the queue helper:
 
 ```ts
-import { OutboxQueue } from './src/queues/outbox.queue';
-await OutboxQueue.add('send-text', { to: '<E164>', body: 'Mensaje de prueba' });
+import { enqueueOutboxText } from './src/queues/outbox.queue';
+
+await enqueueOutboxText({ to: '<E164>', body: 'Mensaje de prueba' });
 ```
 
 Jobs are processed by BullMQ and forwarded to the WhatsApp Cloud API.
 
+Run the worker alongside the API in development:
+
+```bash
+# First terminal
+npm run start:dev
+
+# Second terminal
+npm run worker:dev
+```
+
 ## Docker
-The root `docker-compose.yml` provides Redis and the API. From the repository root run:
+The root `docker-compose.yml` provides Postgres, Redis, the API, and the queue worker. From the repository root run:
 
 ```bash
 docker compose up --build
 ```
 
-Environment variables are pulled from `.env`. When running with Docker, expose the webhook port and keep Redis reachable.
+Healthchecks gate start-up via `depends_on: service_healthy`. Environment variables are pulled from `.env`. When running with Docker, expose the webhook port and keep Redis reachable.
 
 ## Linting & Build
 
 ```bash
 npm run lint
 npm run build
+npm test
 ```
