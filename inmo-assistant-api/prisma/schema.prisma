@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Contact {
+  id        String  @id @default(cuid())
+  waId      String  @unique
+  name      String?
+  consent   Boolean @default(false)
+  createdAt DateTime @default(now())
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  waId      String   @unique
+  state     String
+  slots     Json
+  updatedAt DateTime @updatedAt
+  contact   Contact? @relation(fields: [contactId], references: [id])
+  contactId String?
+}
+
+model MessageLog {
+  id        String   @id @default(cuid())
+  direction String   // inbound | outbound
+  payload   Json
+  status    String
+  createdAt DateTime @default(now())
+}
