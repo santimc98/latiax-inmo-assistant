@@ -1,0 +1,8 @@
+{
+  "name": "inmovilla-etl-tools",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "csv-parse": "^5.5.6"
+  }
+}

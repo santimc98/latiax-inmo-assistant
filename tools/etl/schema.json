@@ -1,0 +1,280 @@
+{
+  "fields": [
+    {
+      "name": "listing_id",
+      "type": "string",
+      "importance": "A",
+      "description": "Unique identifier of the property listing.",
+      "synonyms": ["id", "id_inmueble", "referencia", "codigo", "codigo_inmueble"]
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "importance": "A",
+      "description": "Short marketing title for the property.",
+      "synonyms": ["titulo", "nombre", "encabezado"]
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "importance": "A",
+      "description": "Long form description shown to clients.",
+      "synonyms": ["descripcion", "descripción", "observaciones_publicas", "comentarios_publicos"]
+    },
+    {
+      "name": "operation_type",
+      "type": "string",
+      "importance": "A",
+      "description": "Type of deal (venta, alquiler, temporada).",
+      "synonyms": ["operacion", "tipo_operacion", "tipo_de_operacion", "modalidad"]
+    },
+    {
+      "name": "property_type",
+      "type": "string",
+      "importance": "A",
+      "description": "Canonical property type (piso, chalet, local...).",
+      "synonyms": ["tipo_inmueble", "clase", "tipo_propiedad", "categoria"]
+    },
+    {
+      "name": "price",
+      "type": "number",
+      "importance": "A",
+      "description": "Advertised price in euros.",
+      "synonyms": ["precio", "importe", "precio_venta", "precio_alquiler", "precio_total", "precio_oferta"]
+    },
+    {
+      "name": "area_m2",
+      "type": "number",
+      "importance": "A",
+      "description": "Constructed area in square meters.",
+      "synonyms": ["superficie", "superficie_total", "metros", "metros_cuadrados", "m2", "superficie_construida"]
+    },
+    {
+      "name": "bedrooms",
+      "type": "number",
+      "importance": "A",
+      "description": "Number of bedrooms.",
+      "synonyms": ["habitaciones", "dormitorios", "num_dormitorios", "num_habitaciones"]
+    },
+    {
+      "name": "bathrooms",
+      "type": "number",
+      "importance": "A",
+      "description": "Number of bathrooms.",
+      "synonyms": ["banos", "baños", "num_banos", "num_baños", "aseos", "banos_totales"]
+    },
+    {
+      "name": "address_municipality",
+      "type": "string",
+      "importance": "A",
+      "description": "Municipality or city.",
+      "synonyms": ["municipio", "poblacion", "ciudad", "localidad"]
+    },
+    {
+      "name": "address_province",
+      "type": "string",
+      "importance": "B",
+      "description": "Province of the property.",
+      "synonyms": ["provincia"]
+    },
+    {
+      "name": "neighborhood",
+      "type": "string",
+      "importance": "B",
+      "description": "Neighborhood or zone.",
+      "synonyms": ["zona", "barrio", "distrito"]
+    },
+    {
+      "name": "floor_number",
+      "type": "string",
+      "importance": "B",
+      "description": "Floor or level information.",
+      "synonyms": ["planta", "altura", "piso"]
+    },
+    {
+      "name": "has_elevator",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Whether the building has an elevator.",
+      "synonyms": ["ascensor", "tiene_ascensor"]
+    },
+    {
+      "name": "has_parking",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Parking availability.",
+      "synonyms": ["garaje", "parking", "plaza_aparcamiento", "tiene_garaje"]
+    },
+    {
+      "name": "condition",
+      "type": "string",
+      "importance": "B",
+      "description": "Overall condition or conservation state.",
+      "synonyms": ["estado", "estado_conservacion", "conservacion"]
+    },
+    {
+      "name": "energy_rating",
+      "type": "string",
+      "importance": "B",
+      "description": "Energy rating label.",
+      "synonyms": ["certificado_energetico", "eficiencia_energetica", "calif_energetica"]
+    },
+    {
+      "name": "latitude",
+      "type": "number",
+      "importance": "B",
+      "description": "Latitude coordinate in decimal degrees.",
+      "synonyms": ["lat", "latitud", "coordenada_latitud"]
+    },
+    {
+      "name": "longitude",
+      "type": "number",
+      "importance": "B",
+      "description": "Longitude coordinate in decimal degrees.",
+      "synonyms": ["lng", "longitud", "coordenada_longitud"]
+    },
+    {
+      "name": "reference_url",
+      "type": "string",
+      "importance": "B",
+      "description": "Public URL of the listing.",
+      "synonyms": ["url", "enlace", "link", "url_ficha", "url_portal"]
+    },
+    {
+      "name": "primary_image_url",
+      "type": "string",
+      "importance": "B",
+      "description": "Main photo URL (first valid in photos).",
+      "synonyms": ["foto_principal", "imagen_portada", "imagen_destacada", "url_foto", "url_imagen"]
+    },
+    {
+      "name": "photos",
+      "type": "string",
+      "importance": "B",
+      "description": "All photo URLs concatenated with '|'.",
+      "collect_many": true,
+      "synonyms": [
+        "fotos",
+        "foto",
+        "foto_1",
+        "foto1",
+        "foto_2",
+        "foto2",
+        "imagen",
+        "imagenes",
+        "imágenes",
+        "galeria",
+        "galería",
+        "url_foto_1",
+        "url_foto_2",
+        "urls_fotos",
+        "fotos_urls"
+      ]
+    },
+    {
+      "name": "furnished",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Whether furnished.",
+      "synonyms": ["amueblado", "amueblada", "con_muebles"]
+    },
+    {
+      "name": "exterior",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Exterior vs interior.",
+      "synonyms": ["exterior", "es_exterior"]
+    },
+    {
+      "name": "terrace",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Has terrace/balcony/patio.",
+      "synonyms": ["terraza", "balcon", "balcón", "patio", "porche"]
+    },
+    {
+      "name": "storage_room",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Has storage room.",
+      "synonyms": ["trastero", "tiene_trastero"]
+    },
+    {
+      "name": "air_conditioning",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Has air conditioning.",
+      "synonyms": ["aire_acondicionado", "a_a", "aacc", "climatizacion", "climatización"]
+    },
+    {
+      "name": "pets_allowed",
+      "type": "boolean",
+      "importance": "B",
+      "description": "Pets allowed (rent).",
+      "synonyms": ["se_admiten_mascotas", "mascotas", "admite_mascotas"]
+    },
+    {
+      "name": "available_from",
+      "type": "string",
+      "importance": "B",
+      "description": "Available from date (rent).",
+      "synonyms": ["disponible_desde", "fecha_disponibilidad", "disponibilidad"]
+    },
+    {
+      "name": "year_built",
+      "type": "number",
+      "importance": "C",
+      "description": "Year the property was built.",
+      "synonyms": ["ano_construccion", "año_construccion", "anio", "antiguedad"]
+    },
+    {
+      "name": "community_fees",
+      "type": "number",
+      "importance": "C",
+      "description": "Monthly community fees.",
+      "synonyms": ["gastos_comunidad", "cuota_comunidad"]
+    },
+    {
+      "name": "features",
+      "type": "string",
+      "importance": "C",
+      "description": "Free-form list of highlighted features.",
+      "synonyms": ["extras", "caracteristicas", "amenidades"]
+    }
+  ],
+  "derived": [
+    {
+      "name": "price_per_m2",
+      "type": "number",
+      "importance": "B",
+      "description": "Computed price per square meter when price and area_m2 are available.",
+      "depends_on": ["price", "area_m2"]
+    },
+    {
+      "name": "photo_count",
+      "type": "number",
+      "importance": "B",
+      "description": "Number of valid photos after normalization.",
+      "depends_on": ["photos"]
+    }
+  ],
+  "discarded_synonyms": [
+    "propietario",
+    "nombre_propietario",
+    "apellidos_propietario",
+    "telefono",
+    "telefono_propietario",
+    "movil",
+    "email",
+    "correo",
+    "dni",
+    "notas_internas",
+    "observaciones_internas",
+    "nombre_contacto",
+    "telefono_contacto",
+    "email_contacto",
+    "movil_contacto",
+    "propietario_email",
+    "propietario_telefono"
+  ]
+}

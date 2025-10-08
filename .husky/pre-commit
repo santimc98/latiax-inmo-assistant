@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Block committing CSV/XML
+if git diff --cached --name-only | grep -E '\.(csv|xml)$' > /dev/null; then
+  echo "⛔ Bloqueado: estás intentando commitear archivos .csv/.xml (datos privados)."
+  exit 1
+fi
+
+# Optional: basic lint placeholder (no-op if not present)
+# [ -f package.json ] && npm run -s lint || true
