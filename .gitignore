@@ -16,6 +16,8 @@ pnpm-debug.log*
 # Datos privados (Inmovilla)
 data/
 data/**
+!inmo-assistant-api/src/data/
+!inmo-assistant-api/src/data/**
 **/*.csv
 **/*.xml
 
