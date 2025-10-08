@@ -1,93 +1,74 @@
 import { Property } from "../data/properties.repository";
 
-export function listingCaption(property: Property): string {
-  const where = [property.address_municipality, property.neighborhood].filter(Boolean).join(", ");
-  const line1 = where ? `📍 ${where}` : undefined;
-  const line2 = buildLine2(property);
-  const priceLine = buildPriceLine(property);
-  const statsLine = buildStatsLine(property);
-  const extrasLine = buildExtrasLine(property);
-  const referenceLine = `Ref: ${property.listing_id}`;
-  const linkLine = property.reference_url ? `\n${property.reference_url}` : "";
+export function listingCaption(p: Property): string {
+  const firstLine = `🏷️ ${p.title || p.property_type || "Inmueble"} — ${formatLocation(
+    p.address_municipality,
+    p.neighborhood,
+  )}`;
+  const secondLine = `💶 ${formatPrice(p.price)} | ${formatArea(p.area_m2)} | ${formatCount(
+    p.bedrooms,
+  )} hab | ${formatCount(p.bathrooms)} baño`;
+  const extras = buildExtras(p);
+  const lines = [firstLine, secondLine, extras.length ? extras.join(" · ") : "—"];
 
-  return [line1, line2, priceLine, statsLine, extrasLine, referenceLine]
-    .filter((value) => Boolean(value))
-    .join("\n")
-    .concat(linkLine);
-}
-
-function buildLine2(property: Property): string | undefined {
-  if (!property.property_type && !property.operation_type) {
-    return undefined;
+  if (p.reference_url) {
+    lines.push(`🔗 ${p.reference_url}`);
   }
-  const type = property.property_type ? capitalize(property.property_type) : "";
-  const op = property.operation_type ? capitalize(property.operation_type) : "";
-  if (type && op) {
-    return `${type} en ${op}`;
+
+  return lines.join("\n");
+}
+
+export function formatPrice(value: number | null | undefined): string {
+  if (value === null || value === undefined) {
+    return "Consultar";
   }
-  return type || op || undefined;
+  const formatter = new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  });
+  return formatter.format(value);
 }
 
-function buildPriceLine(property: Property): string {
-  const price = isNumber(property.price) ? formatCurrency(property.price) : "—";
-  const ppm2 = isNumber(property.price_per_m2) ? ` (${formatCurrency(property.price_per_m2)} €/m²)` : "";
-  return `💶 ${price}${ppm2}`;
+export function formatArea(value: number | null | undefined): string {
+  if (value === null || value === undefined) {
+    return "— m²";
+  }
+  const rounded = Math.round(value * 10) / 10;
+  return `${stripTrailingZero(rounded)} m²`;
 }
 
-function buildStatsLine(property: Property): string {
-  const area = isNumber(property.area_m2) ? `${property.area_m2} m²` : "—";
-  const bedrooms = isNumber(property.bedrooms) ? property.bedrooms : "—";
-  const bathrooms = isNumber(property.bathrooms) ? property.bathrooms : "—";
-  return `📐 ${area}   🛏 ${bedrooms}   🛁 ${bathrooms}`;
+function stripTrailingZero(value: number): string {
+  if (Number.isInteger(value)) {
+    return value.toString();
+  }
+  return value.toFixed(1).replace(/\.0$/, "");
 }
 
-function buildExtrasLine(property: Property): string | undefined {
+function formatCount(value: number | null | undefined): number {
+  if (value === null || value === undefined || !Number.isFinite(value)) {
+    return 0;
+  }
+  return Math.max(0, Math.floor(value));
+}
+
+function buildExtras(p: Property): string[] {
   const extras: string[] = [];
-  if (property.floor_number) {
-    extras.push(`Planta: ${property.floor_number}`);
-  }
-  if (property.has_elevator !== undefined) {
-    extras.push(`Ascensor: ${yn(property.has_elevator)}`);
-  }
-  if (property.has_parking !== undefined) {
-    extras.push(`Garaje: ${yn(property.has_parking)}`);
-  }
-  if (property.furnished !== undefined) {
-    extras.push(`Amueblado: ${yn(property.furnished)}`);
-  }
-  if (property.exterior !== undefined) {
-    extras.push(`Exterior: ${yn(property.exterior)}`);
-  }
-  if (property.terrace !== undefined) {
-    extras.push(`Terraza: ${yn(property.terrace)}`);
-  }
-  if (!extras.length) {
-    return undefined;
-  }
-  return extras.join(" · ");
+  if (p.has_elevator) extras.push("Ascensor");
+  if (p.has_parking) extras.push("Garaje");
+  if (p.terrace) extras.push("Terraza");
+  if (p.air_conditioning) extras.push("AA");
+  if (p.exterior) extras.push("Exterior");
+  if (p.furnished) extras.push("Amueblado");
+  if (p.storage_room) extras.push("Trastero");
+  if (p.pets_allowed) extras.push("Mascotas OK");
+  return extras;
 }
 
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("es-ES", { maximumFractionDigits: 0 }).format(value);
-}
-
-function capitalize(input: string): string {
-  if (!input) {
-    return input;
+function formatLocation(municipality: string | null, neighborhood: string | null): string {
+  const parts = [municipality ?? ""];
+  if (neighborhood) {
+    parts.push(neighborhood);
   }
-  return input.charAt(0).toUpperCase() + input.slice(1);
-}
-
-function yn(value: boolean): string {
-  if (value === true) {
-    return "Sí";
-  }
-  if (value === false) {
-    return "No";
-  }
-  return "—";
-}
-
-function isNumber(value: unknown): value is number {
-  return typeof value === "number" && Number.isFinite(value);
+  return parts.filter(Boolean).join(", ") || "Ubicación sin especificar";
 }

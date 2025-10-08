@@ -78,3 +78,11 @@ npm run lint
 npm run build
 npm test
 ```
+
+## Pruebas en local (simulador)
+
+```bash
+npm i
+cp .env.example .env     # y rellena LLM_* y CANONICAL_CSV_PATH
+npm run simulate         # escribe mensajes y prueba intents: "pásame fotos del 123", "alquilo piso en Granada centro por menos de 900", etc.
+```
